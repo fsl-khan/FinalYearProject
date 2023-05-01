@@ -1,0 +1,110 @@
+@import "../../../style.scss";
+
+
+.BookUploadPopup{
+
+@include themify($themes){
+
+    // .popup {
+    //     position: fixed;
+    //     top: 0;
+    //     left: 0;
+    //     width: 100%;
+    //     height: 100%;
+    //     background-color: rgba(0, 0, 0, 0.5);
+    //     display: flex;
+    //     justify-content: center;
+    //     align-items: center;
+    //   }
+      
+    //   .popup-content {
+    //     background-color: white;
+    //     padding: 20px;
+    //     border-radius: 5px;
+    //     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+    //     max-width: 500px;
+    //     width: 100%;
+    //   }
+      
+    //   .popup-content form {
+    //     display: flex;
+    //     flex-direction: column;
+    //     gap: 10px;
+    //   }
+      
+    //   .popup-content label {
+    //     font-weight: bold;
+    //     margin-bottom: 5px;
+    //   }
+      
+    //   .popup-content input,
+    //   .popup-content select {
+    //     padding: 10px;
+    //     border-radius: 5px;
+    //     border: 1px solid gray;
+    //     font-size: 16px;
+    //   }
+      
+    //   .popup-content select {
+    //     appearance: none;
+    //     background-color: white;
+    //     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath fill='%23ccc' d='M15 7l-5 5-5-5h10z'/%3E%3C/svg%3E");
+    //     background-repeat: no-repeat;
+    //     background-position: right 10px center;
+    //   }
+      
+    //   .popup-content select::-ms-expand {
+    //     display: none;
+    //   }
+      
+    //   .popup-content button {
+    //     padding: 10px;
+    //     border-radius: 5px;
+    //     border: none;
+    //     cursor: pointer;
+    //     font-weight: bold;
+    //     color: white;
+    //     font-size: 16px;
+    //     transition: background-color 0.2s ease-in-out;
+    //   }
+      
+    //   .popup-content button:hover {
+    //     background-color: #3f51b5;
+    //   }
+      
+    //   .popup-content .view-file-button {
+    //     background-color: #4caf50;
+    //   }
+      
+    //   .popup-content .upload-file-button {
+    //     background-color: #3f51b5;
+    //   }
+      
+    //   .popup-content .upload-file-button:hover {
+    //     background-color: #303f9f;
+    //   }
+      
+    //   .popup-content .error-message {
+    //     color: red;
+    //     font-size: 14px;
+    //     margin-top: 5px;
+    //   }
+      
+    //   @media (max-width: 500px) {
+    //     .popup-content {
+    //       padding: 10px;
+    //     }
+        
+    //     .popup-content button,
+    //     .popup-content select,
+    //     .popup-content input[type="file"] {
+    //       font-size: 14px;
+    //       padding: 8px;
+    //     }
+    //   }
+      
+    
+
+
+}
+}

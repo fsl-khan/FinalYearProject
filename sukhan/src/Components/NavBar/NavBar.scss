@@ -1,0 +1,91 @@
+@import "../../style.scss";
+
+.navbar{
+    @include themify($themes){
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 50px;
+    height: 50px;
+    border-bottom: 1px solid themed("border");
+    background-color: #fff;
+    position: sticky;
+    top: 0;
+    background-color: themed("bg");
+    color: themed("textColor");
+    z-index: 999;
+    @include mobile{
+        display: flex;
+        flex-direction: row-reverse;
+        padding: 10px 10px;
+    }
+    @include laptop{
+        padding: 10px 10px;
+        }
+    .left{
+        display: flex;
+        align-items: center;
+        gap: 30px;
+        @include mobile{
+            display: none;   
+        }
+        .search{
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 1px solid themed("border");
+            border-radius: 5px;
+            padding: 5px;
+            border: none;
+            input{
+                font-size: 14px;
+                border: none;
+                width: 400px;
+                background-color: transparent;
+                color: themed("textColor");
+                
+                @include laptop{
+                        width: 80%;
+                }
+        
+            }
+        }
+        .search:focus{
+            outline: none;
+        }
+        .NavIcons{
+            display: flex;
+            gap: 100px !important;
+            @include laptop{
+            gap: 50px !important;
+                
+            }
+
+        }
+        .NavIconItems{
+            font-size: 35px !important;
+            color: themed("iconColor");
+            cursor: pointer;
+          
+        }
+    }
+    .right{
+        display: flex;
+            align-items: center;
+            gap: 30px;
+            .user{
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                font-weight: 500;
+                img{
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%;
+                    object-fit: cover;
+                }
+                
+            }
+    }
+}
+}
