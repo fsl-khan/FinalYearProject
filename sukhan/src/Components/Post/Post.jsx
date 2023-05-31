@@ -14,10 +14,7 @@ import { makeRequest } from "../../axios";
 import { AuthContext } from "../../Context/authContext";
 // import { Document, Page } from "react-pdf";
 
-
 const Post = ({ post }) => {
-
-
   const { isLoading, error, data } = useQuery(["likes", post.id], () =>
     makeRequest.get("/likes?postid=" + post.id).then((res) => {
       return res.data;
@@ -57,26 +54,31 @@ const Post = ({ post }) => {
       },
     }
   );
- 
-  // const pdfPath = "./upload/" + post.pdf;
 
+  // const pdfPath = "./upload/" + post.pdf;
 
   const handleFav = () => {
     mutation.mutate(data && data.includes(currentUser.id));
   };
   let postType = "";
   const location = useLocation();
-  if (location.pathname === "/books") {
-    postType = "pdf";
-  } else postType = "img";
+  const proUrl = location.pathname.split("/");
 
+  if (location.pathname === "/books" ) {
+    postType = "pdf";
+  }
+    else postType = "img";
   return postType === "img" ? (
-    post.img !== null ? (
+    (post.img !== null &&  proUrl[1] === "") || proUrl[1] === "Profile" ? (
       <div className="Post">
         <div className="container">
           <div className="userBar">
             <div className="userInfo">
-              <img src={"./upload/" + currentUser.profilepic} />
+              {proUrl[1] === "Profile" ? (
+                <img src={"./../upload/" + post.profilepic} />
+              ) : (
+                <img src={"./upload/" + post.profilepic} />
+              )}
               <div className="Uploader">
                 <Link
                   to={`/Profile/${post.userid}`}
@@ -86,7 +88,7 @@ const Post = ({ post }) => {
                     cursor: "pointer",
                   }}
                 >
-                  <span className="userName">{currentUser.username}</span>
+                  <span className="userName">{post.username}</span>
                 </Link>
                 <span className="date">{moment(post.createdAt).fromNow()}</span>
               </div>
@@ -95,7 +97,16 @@ const Post = ({ post }) => {
           </div>
           <div className="contentBar">
             <p>{[post.desc]}</p>
-            {post.img !== null ? <img src={"./upload/" + post.img} /> : ""}
+            {post.img !== null ? (
+              proUrl[1] === "Profile" ? (
+                <img src={"./../upload/" + post.img} />
+              ) : (
+                <img src={"./upload/" + post.img} />
+              )
+            ) : (
+              // post.pdf !== null && proUrl[1] === "Profile"?
+              <a href={"./../upload/" + post.pdf}>{post.pdf}</a>
+            )}
 
             {/* <img src={"./upload/" + post.img} /> */}
           </div>
@@ -190,21 +201,19 @@ const Post = ({ post }) => {
           <MoreHorizOutlinedIcon />
         </div>
         <div className="contentBar">
-        <p>{[post.desc]}</p>
-        {post.pdf !== null ? (
-          <span>
-            <a href={"./upload/" + post.pdf} >
-              {post.pdf}
-            </a>
-            {/* {console.log(filesss)}
+          <p>{[post.desc]}</p>
+          {post.pdf !== null ? (
+            <span>
+              <a href={"./upload/" + post.pdf}>{post.pdf}</a>
+              {/* {console.log(filesss)}
             <Document file={filesss} onLoadSuccess={onDocumentSuccess}>
               <Page pageNumber={pageNumber} />
             </Document> */}
-          </span>
-        ) : (
-          ""
-        )}
-      </div>
+            </span>
+          ) : (
+            ""
+          )}
+        </div>
         <div className="reactionBar">
           <div className="item">
             <div className="ranking">

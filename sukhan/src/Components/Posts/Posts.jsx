@@ -17,7 +17,7 @@ const Posts = React.memo(({ userid }) => {
   if (isLoading) {
     return <div>Loading...</div>;
   }
-
+console.log(data)
   return (
     <div className='posts' style={{ background: "transparent", boxShadow: "none" }}>
       {data && data.map((post) => (

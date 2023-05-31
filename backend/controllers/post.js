@@ -44,16 +44,15 @@ export const addPost = (req, res) => {
 
   jwt.verify(token, "secretkey", (err, userinfo) => {
     if (err) return res.status(403).json("Token not valid !!!");
-
     const q =
       "INSERT INTO posts (`desc` , `img` ,`pdf`, `createdAt` , `userid`) VALUES (?)";
-      if(req.body.desc === null && req.body.img === null && req.body.pdf === null )
+      if(req.body.desc === null && req.body.img === null && req.body.pdf === null || req.body.pdf === '' )
       {
          return res.status(500).json("Null Post !!!");
       }
       else{
         const VALUES = [
-          req.body.desc ,
+          req.body.desc || null,
           req.body.img || null,
           req.body.pdf || null,
           moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
