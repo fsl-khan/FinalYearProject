@@ -49,6 +49,11 @@
                     border-radius: 50%;
                     object-fit: cover;
                 }
+                userName{
+                    color: themed("textColor");
+                    font-size: 16px;
+                    font-weight: 500;
+                }
             }
 
             .ranking{

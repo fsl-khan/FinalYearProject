@@ -21,6 +21,7 @@ import MemberReg from './pages/register/MemberReg'
 import PoetReg from './pages/register/PoetReg'
 
 import {  useQuery,QueryClient,   QueryClientProvider } from "@tanstack/react-query";
+import Books from './Components/Posts/Books'
 
 function App () { 
  
@@ -73,6 +74,10 @@ function App () {
       {
         path: "/profile/:id",
         element: <Profile />
+      },
+      {
+        path: "/books",
+        element: <Books />
       }
     ]
     },

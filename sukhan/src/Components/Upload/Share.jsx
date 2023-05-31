@@ -5,12 +5,16 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { makeRequest } from "../../axios";
 const Share = () => {
   const [file, setFile] = useState(null);
-  const [desc, setDesc] = useState("");
+  const [desc, setDesc] = useState(null);
+  const [pdfFile, setPdfFile] = useState(null);
 
   const upload = async () => {
     try {
       const formData = new FormData();
       formData.append("file", file);
+      formData.append("pdfFile", pdfFile);
+      formData.append("desc", desc);
+      // Append the PDF file
       const res = await makeRequest.post("/upload", formData);
       return res.data;
     } catch (err) {
@@ -24,6 +28,7 @@ const Share = () => {
 
   const mutation = useMutation(
     (newPost) => {
+     
       return makeRequest.post("/posts", newPost);
     },
     {
@@ -36,19 +41,31 @@ const Share = () => {
 
   const handleClick = async (e) => {
     e.preventDefault();
+    if(file){
     let imgUrl = "";
     if (file) imgUrl = await upload();
     mutation.mutate({ desc, img: imgUrl });
-    setDesc("");
+    setDesc(null);
     setFile(null);
+    }
+    else
+    {
+    let pdfUrl = "";
+    if (pdfFile) pdfUrl = await upload();
+    mutation.mutate({ desc, pdf: pdfUrl });
+    setDesc(null);
+    setPdfFile(null);
+    }
   };
-
   return (
     <div className="share">
       <div className="container">
         <div className="top">
           <div className="left">
-            <img src={"/upload/" + currentUser.profilepic} alt="" />
+            <img src={"/upload/" + currentUser.profilepic} alt="pic na hy" />
+
+              {console.log(currentUser)}
+
             <input
               type="text"
               placeholder={`What's on your mind ${currentUser.username}?`}
@@ -57,8 +74,12 @@ const Share = () => {
             />
           </div>
           <div className="right">
-            {file && (
-              <img className="file" alt="" src={URL.createObjectURL(file)} />
+            {(file  || pdfFile ) && (
+              file?
+                <img className="file" alt="" src={URL.createObjectURL(file)} />
+              : <span>{pdfFile.name}</span>
+            
+              
             )}
           </div>
         </div>
@@ -71,20 +92,25 @@ const Share = () => {
               style={{ display: "none" }}
               onChange={(e) => setFile(e.target.files[0])}
             />
+            <input
+              type="file"
+              id="pdfFile"
+              style={{ display: "none" }}
+              onChange={(e) => setPdfFile(e.target.files[0])}
+              accept=".pdf" // Limit file selection to PDF files only
+            />
             <label htmlFor="file">
               <div className="item">
                 <img src="/images/img.png" alt="" />
                 <span>Add Image</span>
               </div>
             </label>
-            <div className="item">
-              <img src="/images/book.png" alt="" />
-              <span>Add Book</span>
-            </div>
-            <div className="item">
-              <img src="/images/img.png" alt="" />
-              <span>Tag Friends</span>
-            </div>
+            <label htmlFor="pdfFile">
+              <div className="item">
+                <img src="/images/book.png" alt="" />
+                <span>Add Book</span>
+              </div>
+            </label>
           </div>
           <div className="right">
             <button onClick={handleClick}>Share</button>

@@ -15,7 +15,6 @@ const Comments = ({ postid }) => {
       return res.data;
     })
   );
-//   console.log(data, "ey kajsdf ")
 
 
   const queryClient = useQueryClient();

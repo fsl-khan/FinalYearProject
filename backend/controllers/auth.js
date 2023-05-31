@@ -104,4 +104,3 @@ export const logout = (req, res) => {
       sameSite: "none"
     }).status(200).json("Logged Out Success !");
   };
-  
