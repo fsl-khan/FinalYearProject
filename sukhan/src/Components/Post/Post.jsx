@@ -12,6 +12,7 @@ import moment from "moment";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { makeRequest } from "../../axios";
 import { AuthContext } from "../../Context/authContext";
+import Rate from "./Rate";
 // import { Document, Page } from "react-pdf";
 
 const Post = ({ post }) => {
@@ -40,6 +41,8 @@ const Post = ({ post }) => {
 
   const ranking = false;
 
+  const [rating, setRating] = useState(0);
+
   const queryClient = useQueryClient();
 
   const mutation = useMutation(
@@ -64,12 +67,11 @@ const Post = ({ post }) => {
   const location = useLocation();
   const proUrl = location.pathname.split("/");
 
-  if (location.pathname === "/books" ) {
+  if (location.pathname === "/books") {
     postType = "pdf";
-  }
-    else postType = "img";
+  } else postType = "img";
   return postType === "img" ? (
-    (post.img !== null &&  proUrl[1] === "") || proUrl[1] === "Profile" ? (
+    (post.img !== null && proUrl[1] === "") || proUrl[1] === "Profile" ? (
       <div className="Post">
         <div className="container">
           <div className="userBar">
@@ -114,26 +116,10 @@ const Post = ({ post }) => {
             <div className="item">
               <div className="ranking">
                 <div className="stars">
-                  {ranking ? (
-                    <>
-                      <StarOutlinedIcon />
-                      <StarOutlinedIcon />
-                      <StarOutlinedIcon />
-                      <StarOutlinedIcon />
-                      <StarOutlinedIcon />
-                    </>
-                  ) : (
-                    <>
-                      {" "}
-                      <StarBorderOutlinedIcon />
-                      <StarBorderOutlinedIcon />
-                      <StarBorderOutlinedIcon />
-                      <StarBorderOutlinedIcon />
-                      <StarBorderOutlinedIcon />
-                    </>
-                  )}
+                  {/* <Rate  rating={rating} onRating={rate=>setRating(rate)} /> */}
+                  <Rate count={5} rating={rating} color={{ filled: '#f5eb3b', unfilled: '#DCDCDC' }} onRating={rate=>setRating(rate)} />
                 </div>
-                <span className="Votes"> 24 votes </span>
+                <span className="Votes"> {rating} </span>
               </div>
 
               <div
@@ -218,26 +204,9 @@ const Post = ({ post }) => {
           <div className="item">
             <div className="ranking">
               <div className="stars">
-                {ranking ? (
-                  <>
-                    <StarOutlinedIcon />
-                    <StarOutlinedIcon />
-                    <StarOutlinedIcon />
-                    <StarOutlinedIcon />
-                    <StarOutlinedIcon />
-                  </>
-                ) : (
-                  <>
-                    {" "}
-                    <StarBorderOutlinedIcon />
-                    <StarBorderOutlinedIcon />
-                    <StarBorderOutlinedIcon />
-                    <StarBorderOutlinedIcon />
-                    <StarBorderOutlinedIcon />
-                  </>
-                )}
+              <Rate count={5} rating={rating} color={{ filled: '#f5eb3b', unfilled: '#DCDCDC' }} onRating={rate=>setRating(rate)} />
               </div>
-              <span className="Votes"> 24 votes </span>
+              <span className="Votes"> {rating}  </span>
             </div>
 
             <div

@@ -64,7 +64,6 @@ const Share = () => {
           <div className="left">
             <img src={"/upload/" + currentUser.profilepic} alt="pic na hy" />
 
-              {console.log(currentUser)}
 
             <input
               type="text"

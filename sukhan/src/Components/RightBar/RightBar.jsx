@@ -2,6 +2,8 @@ import "./RightBar.scss"
 import StarOutlineOutlinedIcon from '@mui/icons-material/StarOutlineOutlined';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { makeRequest } from '../../axios'
+import Rate from "../Post/Rate";
+import { useState } from "react";
 
 
 const RightBar = () => {
@@ -10,9 +12,7 @@ const RightBar = () => {
       return res.data;
     })
   );
-
-
-  
+  const [rating, setRating] = useState([]);
 
   return (
     <div className="rightbar">
@@ -25,16 +25,12 @@ const RightBar = () => {
             <div className="user" key={index}>
               <div className="userinfo">
                 <img 
-                src={item.profilepic} 
+                src={"./upload/"+item.profilepic} 
                 alt="Profile"  />
-                <span>{item.username}</span>
+                <span className="userNameClass" >{item.username}</span>
               </div>
               <div className="ranking">
-                <StarOutlineOutlinedIcon />
-                <StarOutlineOutlinedIcon />
-                <StarOutlineOutlinedIcon />
-                <StarOutlineOutlinedIcon />
-                <StarOutlineOutlinedIcon />
+              <Rate count={5} rating={rating} color={{ filled: '#f5eb3b', unfilled: '#DCDCDC' }} onRating={rate=>setRating(rate)} />
               </div>
             </div>
             )))}
@@ -50,9 +46,9 @@ const RightBar = () => {
             <div className="user" key={index}>
               <div className="userinfo">
                 <img 
-                src={item.profilepic} 
+                src={"./upload/"+item.profilepic}  
                 alt="Profile"  />
-                <span>{item.username}</span>
+                <span className="userNameClass">{item.username}</span>
               </div>
               <div className="ranking">
                 <StarOutlineOutlinedIcon />

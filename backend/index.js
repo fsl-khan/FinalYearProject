@@ -10,6 +10,8 @@ import likeRoutes from "./Routes/likes.js"
 import cookieParser from "cookie-parser";
 import relationshipRoutes from "./Routes/relationships.js";
 import risingRoutes from "./Routes/rising.js";
+import bookRoutes from "./Routes/books.js";
+
 
 //middlewares
 app.use((req, res, next)=>{
@@ -68,6 +70,7 @@ app.use("/api/comments" , commentRoutes)
 app.use("/api/likes" , likeRoutes)
 app.use("/api/relationships" , relationshipRoutes)
 app.use("/api/rising" , risingRoutes)
+app.use("/api/book" , bookRoutes)
 
 app.post('/', (req, res)=> {
     res.send('post api working');

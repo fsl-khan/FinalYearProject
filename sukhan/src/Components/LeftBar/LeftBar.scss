@@ -1,7 +1,5 @@
 @import "../../style.scss";
 
-
-
 .leftBar{
 
 @include themify($themes){
@@ -69,7 +67,7 @@
                 color: themed("textColor");
 
                 img{
-                    width: 40ox;
+                    width: 40px;
                     height: 40px;
                     border-radius: 50%;
                     object-fit: cover;
