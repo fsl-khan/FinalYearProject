@@ -12,7 +12,7 @@ const RightBar = () => {
       return res.data;
     })
   );
-  const [rating, setRating] = useState([]);
+  const [rating, setRating] = useState(0);
 
   return (
     <div className="rightbar">
@@ -30,14 +30,11 @@ const RightBar = () => {
                 <span className="userNameClass" >{item.username}</span>
               </div>
               <div className="ranking">
-              <Rate count={5} rating={rating} color={{ filled: '#f5eb3b', unfilled: '#DCDCDC' }} onRating={rate=>setRating(rate)} />
+              <Rate count={5} rating={item.rated/item.ranking} color={{ filled: '#f5eb3b', unfilled: '#DCDCDC' }} onRating={null} />
               </div>
             </div>
             )))}
         </div>
-
-
-
         <div className="item">
               <span>Raising Stars / ابھرتے ستارے </span>
               {isLoading ?  (
@@ -51,11 +48,7 @@ const RightBar = () => {
                 <span className="userNameClass">{item.username}</span>
               </div>
               <div className="ranking">
-                <StarOutlineOutlinedIcon />
-                <StarOutlineOutlinedIcon />
-                <StarOutlineOutlinedIcon />
-                <StarOutlineOutlinedIcon />
-                <StarOutlineOutlinedIcon />
+              <Rate count={5} rating={rating} color={{ filled: '#f5eb3b', unfilled: '#DCDCDC' }} onRating={rate=>setRating(rate)} />
               </div>
             </div>
           )))}

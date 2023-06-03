@@ -3,8 +3,7 @@ import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlin
 import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import ModeCommentOutlinedIcon from "@mui/icons-material/ModeCommentOutlined";
 import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
-import StarBorderOutlinedIcon from "@mui/icons-material/StarBorderOutlined";
-import StarOutlinedIcon from "@mui/icons-material/StarOutlined";
+import { Worker, Viewer } from "@react-pdf-viewer/core";
 import { Link, useLocation } from "react-router-dom";
 import Comments from "../Comments/Comments";
 import { useContext, useState } from "react";
@@ -13,18 +12,22 @@ import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { makeRequest } from "../../axios";
 import { AuthContext } from "../../Context/authContext";
 import Rate from "./Rate";
-// import { Document, Page } from "react-pdf";
+import axios from "axios";
 
-const Post = ({ post }) => {
+const Post = ({ post,rated }) => {
   const { isLoading, error, data } = useQuery(["likes", post.id], () =>
     makeRequest.get("/likes?postid=" + post.id).then((res) => {
       return res.data;
     })
   );
 
+
+  const [totalRate , setTotalRate] = useState();
+
   const [CommentOpen, setCommentOpen] = useState(false);
 
   const { currentUser } = useContext(AuthContext);
+  // console.log('o2',data1)
 
   // Temporary
 
@@ -39,7 +42,7 @@ const Post = ({ post }) => {
 
   //PDF View
 
-  const ranking = false;
+  // const ranking = false;
 
   const [rating, setRating] = useState(0);
 
@@ -57,9 +60,29 @@ const Post = ({ post }) => {
       },
     }
   );
-
+  
   // const pdfPath = "./upload/" + post.pdf;
 
+  const handleRating = async (newRate) =>{
+    try {
+      // Make an API request to update the rating in the database
+      await axios.post('http://localhost:8800/api/rising/add', {
+        rating: newRate ,
+        postid: post.id,
+        userid: post.userid
+      });
+      console.log('Rating updated successfully in the database');
+    } catch (error) {
+      console.error('Error updating rating in the database:', error);
+      // Handle the error and provide user feedback
+    }
+    
+
+    // Update the local state with the new rating
+    setRating(newRate);
+    // {window.location.reload(false)}
+
+  }
   const handleFav = () => {
     mutation.mutate(data && data.includes(currentUser.id));
   };
@@ -117,9 +140,15 @@ const Post = ({ post }) => {
               <div className="ranking">
                 <div className="stars">
                   {/* <Rate  rating={rating} onRating={rate=>setRating(rate)} /> */}
-                  <Rate count={5} rating={rating} color={{ filled: '#f5eb3b', unfilled: '#DCDCDC' }} onRating={rate=>setRating(rate)} />
+                  <Rate count={5} rating={rating} color={{ filled: '#f5eb3b', unfilled: '#DCDCDC' }} onRating={handleRating} />
                 </div>
-                <span className="Votes"> {rating} </span>
+                {/* {data1 && data1.map((item) => (
+                    item.userid === post.userid ? ( */}
+                      <span className="Votes">{parseInt(rated) !== parseInt(rating) ? parseInt(rated)+rating: parseInt(rated)}</span>
+                    {/* ) : null
+                  ))} */}
+
+               
               </div>
 
               <div
@@ -190,17 +219,17 @@ const Post = ({ post }) => {
           <p>{[post.desc]}</p>
           {post.pdf !== null ? (
             <span>
-              <a href={"./upload/" + post.pdf}>{post.pdf}</a>
-              {/* {console.log(filesss)}
-            <Document file={filesss} onLoadSuccess={onDocumentSuccess}>
-              <Page pageNumber={pageNumber} />
-            </Document> */}
+              <a href={"./../upload/" + post.pdf}>{post.pdf}</a>
+              {/* {console.log(filesss)} */}
+           <Worker workerUrl={"./upload/" + post.pdf} >
+              <Viewer fileUrl={post.pdf}></Viewer>
+           </Worker>
             </span>
           ) : (
             ""
           )}
         </div>
-        <div className="reactionBar">
+        <div className="reactionBar"> 
           <div className="item">
             <div className="ranking">
               <div className="stars">

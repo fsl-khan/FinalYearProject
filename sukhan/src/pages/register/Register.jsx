@@ -11,16 +11,16 @@ const Register = () => {
         <div className="card">
             
             <div className="right">
-                <h2>Register as Poet <br /> بطور شاعر رجسٹر کریں</h2>
+                <h2>Register  <br /> رجسٹر کریں</h2>
                 <Link to="/register/poet">
-                <button>Poet</button>
+                <button>Register</button>
                 </Link>
                 <br />
                 <br />
-                <h2>Register as Member  <br /> بطور عام فرد رجسٹر کریں </h2>
-                <Link to="/register/member">
+                {/* <h2>Register as Member  <br /> بطور عام فرد رجسٹر کریں </h2> */}
+                {/* <Link to="/register/member">
                 <button>Member</button>
-                </Link>
+                </Link> */}
               
             </div>
             <div className="left">

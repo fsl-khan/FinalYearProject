@@ -17,15 +17,16 @@ export const register =(req, res) => {
         //create naya user
         // hash password   
         // const salt = bcrypt.genSaltSync(10);
-        // const hashedPassword = bcrypt.hashSync(req.body.password , salt)
+    // const hashedPassword = bcrypt.hashSync(eq.body.password , salt)
 
-        const q = "INSERT INTO users (`username` , `email` , `password` , `sample` ) VALUE (?)";
+        const userType = 0;
+        const q = "INSERT INTO users (`username` , `email` , `password` , `usertype` ) VALUE (?)";
 
         const values= [
             req.body.username,
             req.body.email,
             req.body.password,
-            req.body.sample,
+            userType
         ];
         db.query (q , [values] , (err , data)=>{
             if(err) return res.status(500).json(err);
@@ -55,13 +56,14 @@ export const registerMember =(req, res) => {
         // const salt = bcrypt.genSaltSync(10);
         // const hashedPassword = bcrypt.hashSync(req.body.memberpassword , salt)
 
-        const q = "INSERT INTO member (`membername` , `memberemail` , `memberpassword`) VALUE (?)";
+        const userType = 0;
+        const q = "INSERT INTO member (`membername` , `memberemail` , `memberpassword` , `usertype`) VALUE (?)";
 
         const values= [
             req.body.membername,
             req.body.memberemail,
             req.body.memberpassword,
-            // req.body.sample,
+            userType
         ];
         db.query (q , [values] , (err , data)=>{
             if(err) return res.status(500).json(err);
@@ -102,5 +104,7 @@ export const logout = (req, res) => {
     res.clearCookie("accessToken", {
       secure: true,
       sameSite: "none"
-    }).status(200).json("Logged Out Success !");
+    });
+    res.status(200).json("Logged Out Successfully!");
   };
+  

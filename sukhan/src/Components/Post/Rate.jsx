@@ -1,9 +1,9 @@
 import React, { useMemo, useState } from 'react'
-import { PropTypes } from "prop-types";
+import  PropTypes  from 'prop-types';
 import StarOutlinedIcon from "@mui/icons-material/StarOutlined";
 import "./Rate.scss";
 
-const Rate = ({count, rating, color, onRating}) => {
+function Rate ({count, rating, color, onRating})  {
 
     const [hoverRating, setHoverRating] = useState(0);
     const getColor = index => {
@@ -15,7 +15,6 @@ const Rate = ({count, rating, color, onRating}) => {
         }
         return color.unfilled;
     }
-    console.log(hoverRating)
     const starRating = useMemo(()=>{
         return Array(count)
             .fill(0)
@@ -43,11 +42,11 @@ Rate.propTypes = {
     count: PropTypes.number,
     rating: PropTypes.number,
     onchange: PropTypes.number,
-    color: {
+    color: PropTypes.shape({
         filled: PropTypes.string,
         unfilled: PropTypes.string
-    }
-}
+    }).isRequired
+};
 Rate.defaultProps = {
     count : 5,
     rating : 0,

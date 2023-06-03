@@ -1,0 +1,46 @@
+.profileModal{
+    cursor: pointer;
+   
+    ul{
+        list-style: none;
+        li{
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+            margin-top: 15px;
+            margin-bottom: 15px;
+            margin-left: 12px;
+            color: black;
+        }
+        li:hover{
+            color: blue;
+        }
+    }
+    .dropDownItem{
+        list-style: none;
+        a{
+            text-decoration: none;
+            color: black;
+        }
+    }
+    .drop-down.active{
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+        transition: var(--speed) ease;
+    }
+    .drop-down.inactive{
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-20px);
+        transition: var(--speed) ease;
+    }
+    .drop-down{
+        background-color: #fff;
+        position: absolute;
+        top: 55px;
+        right: 215px;
+        padding: 10px, 20px;
+        border-radius: 5px;
+        width: 100px;
+        height: 80px;
+    }
+}
