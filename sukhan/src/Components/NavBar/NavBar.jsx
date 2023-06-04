@@ -41,14 +41,16 @@ const NavBar = () => {
       document.removeEventListener("mousedown", handler);
     }
   })
-  
+  const [searchData, setSearchData] = useState();
   return ( 
     <div className="navbar">
           <div className="left"> 
           
           <div className="search">
-          <SearchOutlinedIcon/> 
-          <input type="text" placeholder='search...' />
+          <input type="text" placeholder='search...' onChange={(e)=>setSearchData(e.target.value)} />
+          <Link to={"/search/"+searchData}>
+          <SearchOutlinedIcon/>
+          </Link>
           </div >
           <div className="NavIcons">
               <Link to={"/"}>

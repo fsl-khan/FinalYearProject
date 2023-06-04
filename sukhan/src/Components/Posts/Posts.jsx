@@ -37,7 +37,6 @@ const Posts = React.memo(({ userid }) => {
   console.log(data1)
   return (
     <div className='posts' style={{ background: "transparent", boxShadow: "none" }}>
-      <Result /> 
 
     {data && data1 && data.map((post, index) => (
       <Post
