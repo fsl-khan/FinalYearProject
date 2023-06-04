@@ -100,5 +100,14 @@ export const updateRanking = (req, res) => {
 
     )
 
-
 }
+export const searchPost = (req, res) => {
+
+    const q = "SELECT p.*, u.username, u.profilepic FROM sukhandb.posts AS p INNER JOIN sukhandb.users AS u ON p.userid = u.id WHERE p.desc LIKE ? ORDER BY p.desc DESC;    ";
+  
+    db.query(q, [`${req.body.desc}%`], (err, data) => {
+      if (err) return res.status(500).json(err);
+      return res.json(data);
+    });
+
+  };
