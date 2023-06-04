@@ -67,4 +67,15 @@ export const addPost = (req, res) => {
     
   });
 };
-//
+
+export const getfav = (req, res) => {
+  // const userid = req.params.userid;
+  const q = "SELECT DISTINCT posts.*, users.username, users.profilepic FROM posts INNER JOIN favourates ON posts.id = favourates.postid inner join users on posts.userid = users.id  where  favourates.userid =?;";
+  const userid = req.query.id;
+
+  db.query(q  ,[userid] ,(err, data) => {
+      if(err) return res.status(500).json(err)
+      // const { password , ...info}=data[0];
+      return res.json(data);
+  })
+}

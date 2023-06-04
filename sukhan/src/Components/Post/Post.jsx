@@ -1,18 +1,18 @@
-import "./Post.scss";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import ModeCommentOutlinedIcon from "@mui/icons-material/ModeCommentOutlined";
 import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
-import { Worker, Viewer } from "@react-pdf-viewer/core";
-import { Link, useLocation } from "react-router-dom";
-import Comments from "../Comments/Comments";
-import { useContext, useState } from "react";
-import moment from "moment";
-import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
-import { makeRequest } from "../../axios";
-import { AuthContext } from "../../Context/authContext";
-import Rate from "./Rate";
+import { Viewer, Worker } from "@react-pdf-viewer/core";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+import moment from "moment";
+import { useContext, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { AuthContext } from "../../Context/authContext";
+import { makeRequest } from "../../axios";
+import Comments from "../Comments/Comments";
+import "./Post.scss";
+import Rate from "./Rate";
 
 const Post = ({ post,rated }) => {
   const { isLoading, error, data } = useQuery(["likes", post.id], () =>
@@ -21,28 +21,12 @@ const Post = ({ post,rated }) => {
     })
   );
 
-
   const [totalRate , setTotalRate] = useState();
 
   const [CommentOpen, setCommentOpen] = useState(false);
 
   const { currentUser } = useContext(AuthContext);
-  // console.log('o2',data1)
 
-  // Temporary
-
-  //PDF VIEW
-
-  // const [numPages, setNumPages] = useState(null);
-  // const [pageNumber, setPageNumber] = useState(1);
-
-  // function onDocumentSuccess({numPages}){
-  //   setNumPages(numPages)
-  // }
-
-  //PDF View
-
-  // const ranking = false;
 
   const [rating, setRating] = useState(0);
 
@@ -93,6 +77,8 @@ const Post = ({ post,rated }) => {
   if (location.pathname === "/books") {
     postType = "pdf";
   } else postType = "img";
+
+  
   return postType === "img" ? (
     (post.img !== null && proUrl[1] === "") || proUrl[1] === "Profile" ? (
       <div className="Post">
@@ -198,7 +184,7 @@ const Post = ({ post,rated }) => {
       <div className="container">
         <div className="userBar">
           <div className="userInfo">
-            <img src={"/upload/" + currentUser.profilepic} />
+            <img src={"/upload/" + post.profilepic} />
             <div className="Uploader">
               <Link
                 to={`/Profile/${post.userid}`}
@@ -208,7 +194,7 @@ const Post = ({ post,rated }) => {
                   cursor: "pointer",
                 }}
               >
-                <span className="userName">{currentUser.username}</span>
+                <span className="userName">{post.username}</span>
               </Link>
               <span className="date">{moment(post.createdAt).fromNow()}</span>
             </div>

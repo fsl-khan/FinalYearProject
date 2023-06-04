@@ -13,7 +13,7 @@ const Feed = () => {
   const {currentUser} = useContext(AuthContext)
   return (
     <div className="Feeds">
-        <Stories />
+        {/* <Stories /> */}
         {currentUser.usertype === "0"?"":
         <Share />  }
         <Posts />

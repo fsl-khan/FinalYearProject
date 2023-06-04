@@ -8,6 +8,7 @@ import UserModal from "../../Components/userModal/UserModal"
 import { useContext, useEffect, useState } from "react"
 import { AuthContext } from "../../Context/authContext"
 import axios from "axios"
+import ShowPost from "../../Components/Post/ShowPost"
 
 function Profile2  (){
 
@@ -21,9 +22,18 @@ function Profile2  (){
     return res.data;
   })
   );
+  const [datass, setData3] = useState();
+  const { isLoading3, error3, data3 } = useQuery(["posts"], () =>
+  makeRequest.get("/posts?userid=" + userid).then((res) => {
+    console.log("datafrom", res.data)
+    setData3(res.data)
+    return res.data;
+  })
+  );
   useEffect(()=>{
-    handleSearch()
-  },[])
+    handleSearch();
+    getUser();
+  },[userid])
 
   
   const handleSearch = async () =>{
@@ -57,7 +67,30 @@ function Profile2  (){
 
   mutation.mutate (relationshipData && relationshipData.includes(currentUser.id)); 
 }
-   
+  //  show post start
+
+const [data1, setData] = useState();
+// const [data3, setData3] = useState();
+
+const getUser = async () => {
+  try {
+    const response1 = await axios.get("http://localhost:8800/api/rising/rate");
+    const data1 = response1.data;
+    setData(data1);
+
+    // const response2 = await axios.get("http://localhost:8800/api/posts?userid=" + userid);
+    // const data2 = response2.data;
+    // setData3(data2);
+  } catch (error) {
+    console.error("Error retrieving user data:", error);
+    // Handle the error appropriately (e.g., show an error message to the user)
+  }
+};
+
+
+
+console.log("ss",data1)
+  // show post end
 
   const { isLoading :rIsLoading,  data : relationshipData } = useQuery(["relationships"], () =>
   makeRequest.get("/relationships?followeduserid="+userid).then((res) => {
@@ -115,7 +148,13 @@ function Profile2  (){
                 </div>
             
           </div>
-        <Posts userid={userid} />
+          {datass && data1 && datass.map((post) => (
+          <ShowPost
+            post={post}
+            key={post.id}
+            rated={data1.find((item) => item.postid === post.id)?.rating || 0}
+          />
+        ))}
 
        {openUserModal && < UserModal setOpenUserModal={setOpenUserModal} user={data}/>} 
       </div>

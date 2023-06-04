@@ -16,7 +16,7 @@ const Books = ({userid}) => {
     <div className='posts' style={{background: "transparent", boxShadow: "none"}}>
         { error ? "Something went wrong!" 
                 : isLoading ? "loading" :  data.map(post=>(
-            <Post post={post} key={post.id} />)      
+            <Post post={post} key={post.id} rated={null}/>)      
         )}
     </div>
   )

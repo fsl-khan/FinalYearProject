@@ -63,7 +63,7 @@ export const updateUser = (req, res) => {
     
 }
 export const getRankUser = (req, res) => {
-    const q = "SELECT * FROM sukhandb.users where usertype = 1 order by ranking desc;";
+    const q = "SELECT * FROM sukhandb.users where usertype = 1 order by ranking desc limit 5;";
 
 
     db.query(q  , (err, data) => {
@@ -85,13 +85,8 @@ export const searchUser = (req, res) => {
 
   
 export const updateRanking = (req, res) => {
-    // const token = req.cookies.accessToken;
-    // if(!token) return res.status(401).json("Not authenticated!")
-
-    // jwt.verify(token, "secretkey", (err, userinfo) => {
-    //     if (err) return res.status(403).json("Token not valid !!!");
-    
-    const q = "UPDATE users SET `ranking`=ranking + 1 WHERE id=?";
+   
+    const q = "UPDATE users SET ranking = ranking + 1 WHERE id = ?;";
     
     db.query(q,[
         req.body.id
@@ -106,6 +101,4 @@ export const updateRanking = (req, res) => {
     )
 
 
-    // })
-    
 }

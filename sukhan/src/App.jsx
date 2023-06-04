@@ -24,6 +24,7 @@ import {  useQuery,QueryClient,   QueryClientProvider } from "@tanstack/react-qu
 import Books from './Components/Posts/Books'
 import Result from './Components/Posts/Result'
 import Profile2 from './pages/profile/Profile'
+import Fav from './Components/Posts/Fav'
 
 function App () { 
  
@@ -78,12 +79,16 @@ function App () {
         element: <Profile />
       },
       {
-        path: "/profile2/:id",
+        path: "/profiles/:id",
         element: <Profile2 />
       },
       {
         path: "/books",
         element: <Books />
+      },
+      {
+        path: "/fav",
+        element: <Fav />
       },
       {
         path: "/search/:username",

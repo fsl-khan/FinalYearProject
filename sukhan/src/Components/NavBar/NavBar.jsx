@@ -56,7 +56,7 @@ const NavBar = () => {
               <Link to={"/"}>
                   <HomeOutlinedIcon  className="NavIconItems" />
               </Link>
-              <Link > 
+              <Link to={"/fav"} > 
                   <NotificationsOutlinedIcon className="NavIconItems" />
               </Link>
               <Link to={"/books"}>
