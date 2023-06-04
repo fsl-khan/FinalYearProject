@@ -62,3 +62,13 @@ export const updateUser = (req, res) => {
     })
     
 }
+export const getRankUser = (req, res) => {
+    const q = "SELECT * FROM sukhandb.users where usertype = 1 order by ranking desc;";
+
+
+    db.query(q  , (err, data) => {
+        if(err) return res.status(500).json(err)
+        // const { password , ...info}=data[0];
+        return res.json(data);
+    })
+}

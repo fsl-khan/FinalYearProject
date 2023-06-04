@@ -8,11 +8,12 @@ import { useState } from "react";
 
 const RightBar = () => {
   const { isLoading, error, data } = useQuery(['usersss'], () =>
-    makeRequest.get('/rising').then((res) => {
+    makeRequest.get('/users/rank').then((res) => {
       return res.data;
     })
   );
   const [rating, setRating] = useState(0);
+    console.log(data)
 
   return (
     <div className="rightbar">

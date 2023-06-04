@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { makeRequest } from '../../axios';
 import "./posts.scss";
 import axios from 'axios';
+import Result from './Result';
 
 const Posts = React.memo(({ userid }) => {
   const { isLoading, error, data } = useQuery(["posts"], () =>
@@ -36,15 +37,15 @@ const Posts = React.memo(({ userid }) => {
   console.log(data1)
   return (
     <div className='posts' style={{ background: "transparent", boxShadow: "none" }}>
-{data && data1 && data.map((post, index) => (
-  <Post
-    post={post}
-    key={post.id}
-    rated={data1.find((item) => item.postid === post.id)?.rating || 0}
-  />
-))}
+      <Result /> 
 
-
+    {data && data1 && data.map((post, index) => (
+      <Post
+        post={post}
+        key={post.id}
+        rated={data1.find((item) => item.postid === post.id)?.rating || 0}
+      />
+    ))}
     </div>
   );
 });
