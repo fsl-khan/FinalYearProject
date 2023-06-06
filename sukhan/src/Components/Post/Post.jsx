@@ -13,6 +13,7 @@ import { makeRequest } from "../../axios";
 import Comments from "../Comments/Comments";
 import "./Post.scss";
 import Rate from "./Rate";
+import BookView from "../Posts/BookView";
 
 const Post = ({ post,rated }) => {
   const { isLoading, error, data } = useQuery(["likes", post.id], () =>
@@ -24,6 +25,8 @@ const Post = ({ post,rated }) => {
   const [totalRate , setTotalRate] = useState();
 
   const [CommentOpen, setCommentOpen] = useState(false);
+
+  const [MenuOpen, setMenuOpen] = useState(false);
 
   const { currentUser } = useContext(AuthContext);
 
@@ -53,7 +56,7 @@ const Post = ({ post,rated }) => {
       await axios.post('http://localhost:8800/api/rising/add', {
         rating: newRate ,
         postid: post.id,
-        userid: post.userid
+        userid: currentUser.id
       });
       console.log('Rating updated successfully in the database');
     } catch (error) {
@@ -70,6 +73,23 @@ const Post = ({ post,rated }) => {
   const handleFav = () => {
     mutation.mutate(data && data.includes(currentUser.id));
   };
+
+  const deleteMutation = useMutation(
+    (postid)=>{
+      return makeRequest.delete("/posts/"+postid)
+    },
+    {
+      onSuccess:()=>{
+        queryClient.invalidateQueries(["posts"])
+      }
+    }
+
+  )
+
+  const handleDelete = ()=>{
+      deleteMutation.mutate(post.id)
+  }
+
   let postType = "";
   const location = useLocation();
   const proUrl = location.pathname.split("/");
@@ -78,9 +98,9 @@ const Post = ({ post,rated }) => {
     postType = "pdf";
   } else postType = "img";
 
-  
+
   return postType === "img" ? (
-    (post.img !== null && proUrl[1] === "") || proUrl[1] === "Profile" ? (
+    ((post.img !== null || post.desc !== null) && proUrl[1] === "") || proUrl[1] === "Profile" ? (
       <div className="Post">
         <div className="container">
           <div className="userBar">
@@ -104,10 +124,14 @@ const Post = ({ post,rated }) => {
                 <span className="date">{moment(post.createdAt).fromNow()}</span>
               </div>
             </div>
-            <MoreHorizOutlinedIcon />
+            <MoreHorizOutlinedIcon  onClick={()=>setMenuOpen(!MenuOpen)}/>
+            {MenuOpen &&  ( post.userid===currentUser.id ? <button onClick={handleDelete} >Delete</button> : "")}
           </div>
           <div className="contentBar">
-            <p>{[post.desc]}</p>
+            {/* {post && post.map((text,index)=>{
+              <p key={index}>{text}</p>
+            })} */}
+            <pre>{post.desc}</pre>
             {post.img !== null ? (
               proUrl[1] === "Profile" ? (
                 <img src={"./../upload/" + post.img} />
@@ -116,7 +140,8 @@ const Post = ({ post,rated }) => {
               )
             ) : (
               // post.pdf !== null && proUrl[1] === "Profile"?
-              <a href={"./../upload/" + post.pdf}>{post.pdf}</a>
+              // <a href={"./../upload/" + post.pdf}>{post.pdf}</a> ""
+              ""
             )}
 
             {/* <img src={"./upload/" + post.img} /> */}
@@ -205,11 +230,9 @@ const Post = ({ post,rated }) => {
           <p>{[post.desc]}</p>
           {post.pdf !== null ? (
             <span>
-              <a href={"./../upload/" + post.pdf}>{post.pdf}</a>
-              {/* {console.log(filesss)} */}
-           <Worker workerUrl={"./upload/" + post.pdf} >
-              <Viewer fileUrl={post.pdf}></Viewer>
-           </Worker>
+              {/* <a href={"./../upload/" + post.pdf}>{post.pdf}</a> */}
+             <BookView pdfUrl={"./../upload/" + post.pdf} />
+           
             </span>
           ) : (
             ""

@@ -30,13 +30,13 @@ const PoetReg = () => {
         <div className="card">
             
             <div className="right">
-                <h1>Register as Poet</h1>
+                <h1>Register</h1>
                 <form>
                     <input type="text" placeholder="UserName/نام نام درج کریں "   name="username" onChange={handleChange}/>
                     <input type="text" placeholder="E-mail/ ای-میل درج کریں"  name="email" onChange={handleChange}/>
                     <input type="password" placeholder="Password/پاسورڈ درج کریں "  name="password" onChange={handleChange}/>
                     <input type="password" placeholder="ConfirmPassword/پاسورڈ دوبارہ درج کریں"  name="cpassword" onChange={handleChange}/>
-                    <input type="file" placeholder="Sample/تصدیق کے لیے اپنا کوئی سا شعر بھیجیں "  name="sample" onChange={handleChange}/>
+                    {/* <input type="file" placeholder="Sample/تصدیق کے لیے اپنا کوئی سا شعر بھیجیں "  name="sample" onChange={handleChange}/> */}
                 </form>
                 {err && err}
                 <button onClick={handleClick}>Register</button>

@@ -11,8 +11,8 @@ import { Link, useLocation } from "react-router-dom";
 import { AuthContext } from "../../Context/authContext";
 import { makeRequest } from "../../axios";
 import Comments from "../Comments/Comments";
-import "./Post.scss";
 import Rate from "./Rate";
+import "./ShowPost.scss"
 
 const ShowPost = ({ post, rated }) => {
   const { isLoading, error, data } = useQuery(["likes", post.id], () =>
@@ -76,7 +76,7 @@ const ShowPost = ({ post, rated }) => {
   } else postType = "img";
 
   return (
-    <div className="Post">
+    <div className="ShowPost">
       <div className="container">
         <div className="userBar">
           <div className="userInfo">

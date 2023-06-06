@@ -19,15 +19,17 @@ const UserModal = ({ setOpenUserModal, user }) => {
   const { currentUser } = useContext(AuthContext);
 
   const [data, setData] = useState({
-    nickname: text.nickname,
-    bio: text.bio,
-    language: text.language,
-    username: text.username,
-    coverpic: coverUrl,
-    profilepic: profileUrl,
+    nickname: user.nickname,
+    bio: user.bio,
+    language: user.language,
+    username: user.username,
+    coverpic: user.coverpic,
+    profilepic: user.profilepic,
     id: currentUser.id,
     email: currentUser.email,
+    usertype:currentUser.usertype
   });
+  
 
   const upload = async (file) => {
     try {
@@ -47,62 +49,79 @@ const UserModal = ({ setOpenUserModal, user }) => {
 
   const queryClient = useQueryClient();
 
+  
   const handleClick = async (e) => {
     e.preventDefault();
-
+  
     setCoverUrl(user.coverpic);
     setProfileUrl(user.profilepic);
-
-    let covUrl=user.coverpic, proUrl=user.profilepic;
-    covUrl = cover ? await upload(cover) : user.coverpic;
-    proUrl = profile ? await upload(profile) : user.profilepic;
-
-
-
-      data.nickname= text.nickname;
-      data.bio= text.bio;
-      data.language= text.language;
-      data.username= text.username;
-      data.coverpic= covUrl;
-      data.profilepic= proUrl;
-      data.id= currentUser.id;
-      data.email= currentUser.email;
-    
   
-    
-
-    mutation.mutate({ ...text, coverpic: covUrl, profilepic: proUrl });
-
+    let covUrl = user.coverpic;
+    let proUrl = user.profilepic;
+  
+    if (cover) {
+      covUrl = await upload(cover);
+    }
+  
+    if (profile) {
+      proUrl = await upload(profile);
+    }
+  
+    const updatedData = {
+      nickname: text.nickname !== "" ? text.nickname : data.nickname,
+      bio: text.bio !== "" ? text.bio : data.bio,
+      language: text.language !== "" ? text.language : data.language,
+      username: text.username !== "" || text.username !== null ? text.username : data.username,
+      coverpic: covUrl,
+      profilepic: proUrl,
+      id: currentUser.id,
+      email: currentUser.email,
+    usertype:currentUser.usertype,
+      
+    };
+  
+    const mergedData = { ...data, ...updatedData };
+  
+    mutation.mutate(mergedData);
+  
     setOpenUserModal(false);
   };
-
+  
   const mutation = useMutation(
     (user) => {
-      // const dataArray = Object.entries(user).map(([key, value]) => value);
-
       return makeRequest.put("/users", user);
     },
     {
       onSuccess: () => {
-        // Invalidate and refetch
         queryClient.invalidateQueries(["user"]);
         console.log("updated", data);
         localStorage.setItem("user", JSON.stringify(data));
       },
     }
   );
+  console.log(data)
   return (
     <div className="userModal">
       UserModal
-      <form action="#"className="form">
-      <button className="close" onClick={() => setOpenUserModal(false)}>x</button>
-        <input type="file" onChange={(e) => setCover(e.target.files[0])} className="picInput"/>
-        <input type="file" onChange={(e) => setProfile(e.target.files[0])} className="picInput" />
+      <form action="#" className="form">
+        <button className="close" onClick={() => setOpenUserModal(false)}>
+          x
+        </button>
+        <label htmlFor="coverPicture" className="uploadLabel" style={{ color: "rgb(87, 171, 255)" }}>
+          Upload Profile Picture
+        </label>
+        <input type="file" id="coverPicture" onChange={(e) => setCover(e.target.files[0])} className="picInput" style={{ display: "none" }} />
+        <label htmlFor="profilePicture" className="uploadLabel" style={{ color: "rgb(87, 171, 255)" }}>
+          Upload Cover Picture
+        </label>
+        <input type="file" id="profilePicture" onChange={(e) => setProfile(e.target.files[0])} className="picInput" style={{ display: "none" }} />
         <input type="text" name="nickname" placeholder="nickname" onChange={handleChange} className="input" />
-        <input type="text" name="bio" placeholder="bio" onChange={handleChange} className="input"  />
-        <input type="text" name="language" placeholder="language" onChange={handleChange} className="input"  />
-        <input type="text" name="username" placeholder="username" onChange={handleChange} className="input"  />
-        <button className="btni" onClick={handleClick}>Update</button>
+        <input type="text" name="bio" placeholder="bio" onChange={handleChange} className="input" />
+        <input type="text" name="language" placeholder="language" onChange={handleChange} className="input" />
+        <input type="text" name="username" placeholder="username" onChange={handleChange} className="input" />
+        <button className="btni" onClick={handleClick}>
+          Update
+        </button>
       </form>
     </div>
   );

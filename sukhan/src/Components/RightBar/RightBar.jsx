@@ -30,7 +30,7 @@ const RightBar = () => {
     }
   }
 
-console.log(data2,"dddd")
+// console.log(data2,"dddd")
   return (
     <div className="rightbar">
       <div className="container">

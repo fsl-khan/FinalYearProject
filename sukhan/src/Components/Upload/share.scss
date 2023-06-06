@@ -9,6 +9,7 @@
     background-color: themed("bg");
     color: themed("textColor");
     margin-bottom: 20px;
+    width: 540px;
 
     .container {
       padding: 20px;
@@ -24,6 +25,13 @@
           display: flex;
           align-items: center;
           flex: 3;
+          .textArea{
+            background: transparent;
+            border: none;
+            margin-left: 12px;
+            outline: none;
+            color: themed("textColor");
+          }
           img {
             width: 40px;
             height: 40px;

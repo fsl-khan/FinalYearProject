@@ -119,15 +119,12 @@ console.log("ss",data1)
                         <div className="info">
 
                           <div className="item">
-                            <Language />
                             <span>{data && data.language }</span>
                           </div>
                           <div className="item">
-                            <Language />
                             <span>{data && data.bio }</span>
                           </div>
                           <div className="item">
-                            <Language />
                           </div>
                           { rIsLoading ? "loading" : userid === currentUser.id 
                           ?

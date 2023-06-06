@@ -44,9 +44,10 @@ export const addPost = (req, res) => {
 
   jwt.verify(token, "secretkey", (err, userinfo) => {
     if (err) return res.status(403).json("Token not valid !!!");
+    console.log(req.body);
     const q =
       "INSERT INTO posts (`desc` , `img` ,`pdf`, `createdAt` , `userid`) VALUES (?)";
-      if(req.body.desc === null && req.body.img === null && req.body.pdf === null || req.body.pdf === '' )
+      if(req.body.desc === null && (req.body.img === null && req.body.pdf === null || req.body.pdf === '') )
       {
          return res.status(500).json("Null Post !!!");
       }
@@ -79,3 +80,18 @@ export const getfav = (req, res) => {
       return res.json(data);
   })
 }
+
+export const deletePost = (req, res) => {
+  const token = req.cookies.accessToken;
+  if (!token) return res.status(401).json("Not Logged in !!!");
+
+  jwt.verify(token, "secretkey", (err, userinfo) => {
+    if (err) return res.status(403).json("Token not valid !!!");
+    const q = "DELETE FROM posts WHERE `id`=? AND `userid`=?";
+    db.query(q, [req.params.id, userinfo.id], (err, data) => {
+      if (err) return res.status(500).json(err);
+      if (data.affectedRows > 0) return res.status(200).json("Post Deleted!");
+      return res.status(403).json("You can only delete your Post!");
+    });
+  });
+};

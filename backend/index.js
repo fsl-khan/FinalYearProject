@@ -61,8 +61,6 @@ app.post("/api/upload", (req, res) => {
 });
 
 
-
-
 app.use("/api/auth" , authRoutes)
 app.use("/api/users" , userRoutes)
 app.use("/api/posts" , postRoutes)

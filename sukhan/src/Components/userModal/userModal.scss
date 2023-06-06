@@ -49,11 +49,11 @@
           color: gray;
           font-size: 14px;
         }
-        .input {
+        .input .uploadLabel{
           padding: 5px;
           border: none;
           border-bottom: 1px solid themed("border");
-          color: black;
+          color: themed("textColor");
           background-color: transparent;
           border-radius: 20px;
           

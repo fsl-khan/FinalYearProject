@@ -47,6 +47,7 @@ function Profile  (){
    return res.data;
  })
  );
+ console.log(data)
   return (
     <div className="mainProfile">
       {isLoading ? "Loading..." : <>
@@ -58,41 +59,37 @@ function Profile  (){
           <div className="profileDetails">
                 <div className="userInfo">
                   <div className="left">
+                  {/* <Language />
                   <Language />
                   <Language />
                   <Language />
-                  <Language />
-                  <Language />
+                  <Language /> */}
                   </div>
                   <div className="center">
                         <span>{data && data.nickname }</span>
                         <div className="info">
 
                           <div className="item">
-                            <Language />
                             <span>{data && data.language }</span>
                           </div>
                           <div className="item">
-                            <Language />
                             <span>{data && data.bio }</span>
                           </div>
                           <div className="item">
-                            <Language />
                           </div>
                           { rIsLoading ? "loading" : userid === currentUser.id 
                           ?
                           (<button onClick={()=> setOpenUserModal(true)} >Update</button>)
                                 :
                           <button onClick={handleFollow}>{ relationshipData && relationshipData.includes(currentUser.id) ? "Following" : "Follow"}</button>}
-                          
                         </div>
-                  </div>
+                  </div> 
                   <div className="right">
+                  {/* <Language />
                   <Language />
                   <Language />
                   <Language />
-                  <Language />
-                  <Language />
+                  <Language /> */}
 
                   </div>
                 </div>
@@ -104,6 +101,7 @@ function Profile  (){
       </div>
       </>}
     </div>
+
   )
 }
 

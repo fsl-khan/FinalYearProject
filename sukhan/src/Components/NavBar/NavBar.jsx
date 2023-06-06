@@ -1,112 +1,130 @@
-import React, { useContext, useState } from 'react'
-import Diversity1OutlinedIcon from '@mui/icons-material/Diversity1Outlined';
-import AutoStoriesOutlinedIcon from '@mui/icons-material/AutoStoriesOutlined';
-import "./NavBar.scss"
-import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
-import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
-import WbSunnyOutlinedIcon from '@mui/icons-material/WbSunnyOutlined';
-import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
-import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
-import { Link } from 'react-router-dom';
-import { DarkModeContext } from '../../Context/darkModeContext';
-import Home from '../../pages/home/Home';
-import RightBar from '../RightBar/RightBar';
-import LeftBar from '../LeftBar/LeftBar';
-import { AuthContext } from '../../Context/authContext';
-// import ProfileModal from './ProfileModal';
-import "./ProfileModal.scss"
-import { useEffect } from 'react';
-import { useRef } from 'react';
+import React, { useContext, useState } from "react";
+import Diversity1OutlinedIcon from "@mui/icons-material/Diversity1Outlined";
+import AutoStoriesOutlinedIcon from "@mui/icons-material/AutoStoriesOutlined";
+import "./NavBar.scss";
+import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
+import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
+import WbSunnyOutlinedIcon from "@mui/icons-material/WbSunnyOutlined";
+import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
+import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
+import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+import { Link } from "react-router-dom";
+import { DarkModeContext } from "../../Context/darkModeContext";
+import Home from "../../pages/home/Home";
+import RightBar from "../RightBar/RightBar";
+import LeftBar from "../LeftBar/LeftBar";
+import { AuthContext } from "../../Context/authContext";
+import "./ProfileModal.scss";
+import { useEffect } from "react";
+import { useRef } from "react";
 // import { logout } from 'path/to/logout';
 
-
 const NavBar = () => {
-
-  const {toggle , darkMode} = useContext(DarkModeContext);
-  const {currentUser} = useContext(AuthContext);
+  const { toggle, darkMode } = useContext(DarkModeContext);
+  const { currentUser } = useContext(AuthContext);
 
   const [profileModal, setProfileModal] = useState(false);
 
   let menuRef = useRef();
 
-  useEffect(()=>{
+  useEffect(() => {
     let handler = (e) => {
-      if (!menuRef.current.contains(e.target)){
+      if (!menuRef.current.contains(e.target)) {
         setProfileModal(false);
       }
     };
-    document.addEventListener("mousedown", handler)
-
-    return()=>{
+    document.addEventListener("mousedown", handler);
+    return () => {
       document.removeEventListener("mousedown", handler);
-    }
-  })
+    };
+  });
   const [searchData, setSearchData] = useState();
-  return ( 
+  return (
     <div className="navbar">
-          <div className="left"> 
-          
-          <div className="search">
-          <input type="text" placeholder='search...' onChange={(e)=>setSearchData(e.target.value)} />
-          <Link to={"/search/"+searchData}>
-          <SearchOutlinedIcon/>
+      <div className="left">
+        <div className="search">
+          <input
+            type="text"
+            placeholder="search..."
+            onChange={(e) => setSearchData(e.target.value)}
+          />
+          <Link to={"/search/" + searchData}>
+            <SearchOutlinedIcon />
           </Link>
-          </div >
-          <div className="NavIcons">
-              <Link to={"/"}>
-                  <HomeOutlinedIcon  className="NavIconItems" />
-              </Link>
-              <Link to={"/fav"} > 
-                  <NotificationsOutlinedIcon className="NavIconItems" />
-              </Link>
-              <Link to={"/books"}>
-                  <AutoStoriesOutlinedIcon className="NavIconItems" />
-              </Link>
-              <Link to={LeftBar}>
-                  <Diversity1OutlinedIcon className="NavIconItems" />
-              </Link>
-              {/* <span onClick={() => localStorage.removeItem("user")} className="label">Sign Out</span> */}
-                  </div>                 
+        </div>
+        <div className="NavIcons">
+          <Link to={"/"}>
+            <HomeOutlinedIcon className="NavIconItems" />
+          </Link>
+          <Link to={"/fav"}>
+            <FavoriteBorderOutlinedIcon className="NavIconItems" />
+          </Link>
+          <Link to={"/books"}>
+            <AutoStoriesOutlinedIcon className="NavIconItems" />
+          </Link>
+          <Link to={"/poets"}>
+            <Diversity1OutlinedIcon className="NavIconItems" />
+          </Link>
+          {/* <span onClick={() => localStorage.removeItem("user")} className="label">Sign Out</span> */}
+        </div>
+      </div>
+      <div className="right">
+        <div className="user">
+          <Link
+            to={`/Profile/${currentUser.id}`}
+            style={{
+              textDecoration: "none",
+              color: "inherit",
+              cursor: "pointer",
+            }}
+          >
+            <span className="userName">{currentUser.username}</span>
+          </Link>
+          <img
+            src={"./upload/" + currentUser.profilepic}
+            onClick={() => {
+              setProfileModal(!profileModal);
+            }}
+          />
+          <div className="profileModal" ref={menuRef}>
+            <div
+              className={`drop-down ${profileModal ? "active" : "inactive"}`}
+            >
+              <ul>
+                {/* <DropDownItem text={"My Profile"} /> */}
+                <DropDownItem text={"Logout"} />
+              </ul>
+            </div>
           </div>
-          <div className="right"> 
-                  <div className='user' >
-                    <span>{currentUser.username}</span>
-                    <img src={"./upload/"+currentUser.profilepic} 
-                       onClick={() => {setProfileModal(!profileModal)}}
-                    />
-                    <div className='profileModal' ref={menuRef}>
-        <div className={`drop-down ${profileModal? 'active':'inactive'}`}>
-        <ul>
-            <DropDownItem text={"My Profile"} />
-            <DropDownItem text={"Logout" } />
-        </ul>
+          {/* {profileModal && < ProfileModal setPRofileModal={setProfileModal} />}  */}
+        </div>
+        {darkMode ? (
+          <WbSunnyOutlinedIcon onClick={toggle} />
+        ) : (
+          <DarkModeOutlinedIcon onClick={toggle} />
+        )}
+        <Link to="/">
+          <img
+            src="/images/reglogo.png"
+            alt="logo"
+            style={{ width: "150px" }}
+          />
+        </Link>
+      </div>
     </div>
-    </div>
-                     {/* {profileModal && < ProfileModal setPRofileModal={setProfileModal} />}  */}
-                   </div>
-                  {darkMode ? ( 
-                    <WbSunnyOutlinedIcon onClick={toggle}/>
-                  ) : ( 
-                  <DarkModeOutlinedIcon onClick={toggle} /> 
-                   ) }
-                  <Link to="/">
-                      <img src="/images/reglogo.png" alt="logo" style={{width: "150px"}} />
-                  </Link>
-                  
-          </div>
-    </div>
-  )
-}
+  );
+};
 function DropDownItem(props) {
   const handleLogout = () => {
     logout()
-      .then(response => {
+      .then((response) => {
         localStorage.removeItem("user");
+        window.location.reload();
         // Handle successful logout
         console.log("Hogaya hayy Logout", response);
-        <Link to="/Login"></Link>
+        <Link to="/Login"></Link>;
       })
-      .catch(error => {
+      .catch((error) => {
         // Handle logout error
         console.error(error);
       });
@@ -115,9 +133,7 @@ function DropDownItem(props) {
   return (
     <>
       <li>
-        <a onClick={handleLogout}>
-          {props.text}
-        </a>
+        <a onClick={handleLogout}>{props.text}</a>
       </li>
     </>
   );
@@ -125,16 +141,13 @@ function DropDownItem(props) {
 
 export const logout = async () => {
   try {
-    await fetch('/api/auth/logout', {
-      method: 'GET',
+    await fetch("/api/auth/logout", {
+      method: "GET",
     });
-    return 'Logged Out Successfully!';
+    return "Logged Out Successfully!";
   } catch (error) {
-    throw new Error('Logout Failed!');
+    throw new Error("Logout Failed!");
   }
 };
 
-
-
-
-export default NavBar
+export default NavBar;

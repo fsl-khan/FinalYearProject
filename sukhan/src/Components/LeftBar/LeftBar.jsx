@@ -40,7 +40,7 @@ const LeftBar = () => {
                   </div>
                   <div className="book">
                     <a href={"./upload/"+ item.pdf}>
-                    <img src="/images/cover.png" alt="Book" />
+                    <iframe src={`${"./upload/"+ item.pdf}#page=1`} title="PDF Viewer" style={{ width: '100%', height: '50vh' }}></iframe>
                     </a>
                   </div>
                 </div>

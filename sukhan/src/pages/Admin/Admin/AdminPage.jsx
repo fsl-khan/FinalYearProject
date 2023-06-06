@@ -24,36 +24,18 @@ const AdminPage = () => {
   }, []);
 
 
-  const [users, setUsers] = useState([
-    {
-      id: 1,
-      name: "John Doe",
-      email: "johndoe@example.com",
-      role: "admin",
-      isActive: true,
-    },
-    {
-      id: 2,
-      name: "Jane Smith",
-      email: "janesmith@example.com",
-      role: "user",
-      isActive: true,
-    },
-    {
-      id: 3,
-      name: "Bob Johnson",
-      email: "bobjohnson@example.com",
-      role: "user",
-      isActive: false,
-    },
-  ]);
 
-  const handleUserStatusChange = (userId, newStatus) => {
-    setUsers((prevState) =>
-      prevState.map((user) =>
-        user.id === userId ? { ...user, isActive: newStatus } : user
-      )
-    );
+  const handleUserStatusChange = async (userid) => {
+    console.log(userid, "raaa")
+    try {
+      await axios.post('http://localhost:8800/api/users/update', {
+        id: userid
+      });
+      getUser();
+    } catch (error) {
+      console.log(error)
+    }
+   
   };
 console.log(data)
   return (
@@ -68,6 +50,7 @@ console.log(data)
             <th>Name</th>
             <th>Email</th>
             <th>Role</th>
+            <th>Sample</th>
             <th>Status</th>
           </tr>
         </thead>
@@ -79,14 +62,14 @@ console.log(data)
               <td>{user.username}</td>
               <td>{user.email}</td>
               <td>{user.usertype === "0" ? "MEMEBER": "POET"}</td>
+              <td><pre>{user.sample}</pre></td>
               <td>
                 <button
-                  className={user.isActive ? "active-button" : "inactive-button"}
                   onClick={() =>
-                    handleUserStatusChange(user.id, !user.isActive)
+                    handleUserStatusChange(user.id)
                   }
                 >
-                  {user.isActive ? "Active" : "Inactive"}
+                 Update 
                 </button>
               </td>
             </tr>

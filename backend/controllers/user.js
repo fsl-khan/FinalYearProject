@@ -111,3 +111,50 @@ export const searchPost = (req, res) => {
     });
 
   };
+
+  export const UpdateType = (req, res) => {
+   
+    const q = "UPDATE users SET usertype = 1 WHERE id = ?;";
+    db.query(q,[
+        req.body.id
+    ],(err,data)=>{
+        if (err) res.status(500).json(err)
+        if (data && typeof data.affectedRows !== 'undefined' && data.affectedRows > 0) {
+            return res.json("Updated!");
+          }
+        return res.status(403).json("You can update only your post")
+    }
+
+    )
+
+}
+export const getSample = (req, res) => {
+   console.log("rrr", req.body.sample)
+    const q = "UPDATE users SET sample = ? WHERE id = ?;";
+    db.query(q,[
+        req.body.sample,
+        req.body.id
+
+    ],(err,data)=>{
+        if (err) res.status(500).json(err)
+        if (data && typeof data.affectedRows !== 'undefined' && data.affectedRows > 0) {
+            return res.json("Updated!");
+          }
+        return res.status(403).json("You can update only your post")
+    }
+
+    )
+
+}
+
+
+export const getPoets = (req, res) => {
+
+    const q = "SELECT * FROM sukhandb.users where usertype = 1 order by ranking desc;";
+  
+    db.query(q, [`${req.body.desc}%`], (err, data) => {
+      if (err) return res.status(500).json(err);
+      return res.json(data);
+    });
+
+  };

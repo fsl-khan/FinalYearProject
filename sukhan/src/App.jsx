@@ -25,6 +25,7 @@ import Books from './Components/Posts/Books'
 import Result from './Components/Posts/Result'
 import Profile2 from './pages/profile/Profile'
 import Fav from './Components/Posts/Fav'
+import Poets from './Components/Poets/Poets'
 
 function App () { 
  
@@ -93,6 +94,11 @@ function App () {
       {
         path: "/search/:username",
         element: <Result />
+      }
+      ,
+      {
+        path: "/poets",
+        element: <Poets />
       }
     ]
     },

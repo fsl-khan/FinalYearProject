@@ -13,10 +13,14 @@ const Share = () => {
       const formData = new FormData();
       formData.append("file", file);
       formData.append("pdfFile", pdfFile);
-      formData.append("desc", desc);
+      formData.append("desc", JSON.stringify(desc));
       // Append the PDF file
       const res = await makeRequest.post("/upload", formData);
+      setDesc(null);
+      setFile(null);
+      setPdfFile(null);
       return res.data;
+      
     } catch (err) {
       console.log(err);
     }
@@ -63,13 +67,12 @@ const Share = () => {
         <div className="top">
           <div className="left">
             <img src={"/upload/" + currentUser.profilepic} alt="pic na hy" />
-
-
-            <input
+            <textarea className="textArea"
               type="text"
               placeholder={`What's on your mind ${currentUser.username}?`}
               onChange={(e) => setDesc(e.target.value)}
               value={desc}
+              cols={40}
             />
           </div>
           <div className="right">
