@@ -5,7 +5,7 @@ import Share from "../Upload/Share"
 import "./Feed.scss"
 import { AuthContext } from "../../Context/authContext"
 import axios from "axios"
-import { Backdrop, Box, Button, Fade, Modal, TextareaAutosize } from "@mui/material"
+import { Backdrop, Box, Button, Fade, Modal, TextareaAutosize } from "@mui/material";
 import React from "react"
 
 const Feed = () => {
@@ -15,9 +15,6 @@ const Feed = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const handleRequest =  async() => {
-    // const result = window.prompt("Please Verify");
-  
-    // console.log("User entered:", result);
     try {
       await axios.post('http://localhost:8800/api/users/sample', {
         id: currentUser.id,

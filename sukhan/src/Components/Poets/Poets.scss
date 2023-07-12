@@ -1,86 +1,88 @@
 @import "../../style.scss";
 
+.parent {
+  margin-top: -50px;
 
-.parent{
-
-    @include themify($themes){
-
+  @include themify($themes) {
     // flex: 3;
     width: 100%;
     position: sticky;
     top: 70px;
     height: calc(100vh - 70px);
     background-color: themed("bg");
-    @include mobile{
-        display: none;
+    @include mobile {
+      display: none;
     }
 
-    &::-webkit-scrollbar{
-        display: none;
+    &::-webkit-scrollbar {
+      display: none;
     }
 
-.container{
-    padding: 0px 0px;
-    width: 100%;
-    h2{
+    .container {
+      padding: 0px 0px;
+      width: 100%;
+      h2 {
         margin: 1em 0 0.5em 0;
-	color: #343434;
-	font-weight: normal;
-	font-family: 'Ultra', sans-serif;   
-	font-size: 36px;
-	line-height: 42px;
-	text-transform: uppercase;
-	text-shadow: 0 2px white, 0 3px #777;
-    text-align: center;
-    }
-    .item{
-        -webkit-box-shadow: 0px 0px 16px -8px rgba(0,0,0,0.68);
-        box-shadow: 0px 0px 16px -8px rgba(0,0,0,0.68);
-            padding: 20px;
-            margin-top: 20px;
-            background-color: themed("bg");
+        color: themed("textColor");
+        font-weight: normal;
+        font-family: "Ultra", sans-serif;
+        font-size: 36px;
+        line-height: 42px;
+        text-transform: uppercase;
+        text-shadow: 0 2px white, 0 3px #777;
+        text-align: center;
+      }
+      .item {
+        -webkit-box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
+        box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
+        padding: 20px;
+        margin-top: 20px;
+        background-color: themed("bg");
 
-        span{
-            color: themed("textColor");
-            }
-        .user{
+        span {
+          color: themed("textColor");
+        }
+        .user {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin: 20px 0px;
+            background: 'transparent';
+            box-shadow : 0px 0px 16px -8px rgba(0,0,0,0.68);
+            margin: 25px 25px;
+            gap: 15px;
+            border-radius: 20px;
+          .userinfo {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            margin: 20px 0px;
-            .userinfo{
-                display: flex;
-                align-items: center;
-                gap: 20px;
-                img{
-                    width: 40px;
-                    height: 40px;
-                    border-radius: 50%;
-                    object-fit: cover;
-                }
-                .userName{
-                    color: themed("textColor");
-                    font-size: 16px;
-                    font-weight: 500;
-                }
-                .userNameClass{
-                    width: 120px;
-                    overflow: hidden;
-                    white-space: nowrap;
-                    text-overflow: ellipsis;
-                    cursor: pointer;
-                }
+            gap: 20px;
+            img {
+              width: 40px;
+              height: 40px;
+              border-radius: 50%;
+              object-fit: cover;
             }
-
-            .ranking{
-                display: flex;
-                align-items: center;
-                color: themed("textColor");
-
+            .userName {
+              color: themed("textColor");
+              font-size: 16px;
+              font-weight: 500;
             }
-            
+            .userNameClass {
+              width: 120px;
+              overflow: hidden;
+              white-space: nowrap;
+              text-overflow: ellipsis;
+              cursor: pointer;
+            }
+          }
+
+          .ranking {
+            display: flex;
+            align-items: center;
+            color: themed("textColor");
+          }
         }
+      }
     }
-}
-}
+  }
 }

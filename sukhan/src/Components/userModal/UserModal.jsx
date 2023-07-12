@@ -85,6 +85,7 @@ const UserModal = ({ setOpenUserModal, user }) => {
     mutation.mutate(mergedData);
   
     setOpenUserModal(false);
+
   };
   
   const mutation = useMutation(
@@ -108,11 +109,11 @@ const UserModal = ({ setOpenUserModal, user }) => {
           x
         </button>
         <label htmlFor="coverPicture" className="uploadLabel" style={{ color: "rgb(87, 171, 255)" }}>
-          Upload Profile Picture
+          Upload Cover Picture
         </label>
         <input type="file" id="coverPicture" onChange={(e) => setCover(e.target.files[0])} className="picInput" style={{ display: "none" }} />
         <label htmlFor="profilePicture" className="uploadLabel" style={{ color: "rgb(87, 171, 255)" }}>
-          Upload Cover Picture
+          Upload Profile Picture
         </label>
         <input type="file" id="profilePicture" onChange={(e) => setProfile(e.target.files[0])} className="picInput" style={{ display: "none" }} />
         <input type="text" name="nickname" placeholder="nickname" onChange={handleChange} className="input" />

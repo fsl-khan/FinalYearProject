@@ -13,7 +13,7 @@ export const register =(req, res) => {
 
     db.query(q,[req.body.email], (err, data) => {
         if(err) return res.status(500).json(err)
-        if(data.length) return res.status(409).json("User Already Exists ...!!")
+        if(data.length) return res.status(409).json("Registration Success ...!!")
         //create naya user
         // hash password   
         // const salt = bcrypt.genSaltSync(10);
@@ -106,5 +106,34 @@ export const logout = (req, res) => {
       sameSite: "none"
     });
     res.status(200).json("Logged Out Successfully!");
+  };
+  
+  export const adminLogin = (req, res) => {
+    const predefinedUsername = "admin";
+    const predefinedPassword = "admin@sukhan";
+    const { username, password } = req.body;
+  
+    if (username === predefinedUsername && password === predefinedPassword) {
+      const adminData = {
+        id: 1, // Predefined admin ID
+        username: predefinedUsername,
+        userType: "admin",
+        // Additional admin data
+      };
+  
+      const token = Jwt.sign({ id: adminData.id }, "secretkey");
+  
+      // Remove the password field from the adminData
+      const { password: adminPassword, ...others } = adminData;
+  
+      res
+        .cookie("accessToken", token, {
+          httpOnly: true,
+        })
+        .status(200)
+        .json(others);
+    } else {
+      res.status(400).json("Wrong username/password!");
+    }
   };
   

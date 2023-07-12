@@ -1,7 +1,16 @@
+.main{
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+}
 .admin-page {
     max-width: 800px;
-    margin: 0 auto;
+    margin: 0px;
     padding: 20px;
+  }
+  .claims{
+    margin-top: 100px;
+    margin-right: 20px;
   }
   
   h1 {
@@ -23,6 +32,7 @@
     text-align: left;
     background-color: #f1f1f1;
     padding: 8px;
+   
   }
   
   td {
@@ -46,4 +56,21 @@
     border-radius: 4px;
     cursor: pointer;
   }
-  
+  button {
+    border: none;
+    padding: 5px;
+    color: white;
+    cursor: pointer;
+    background-color: #5271ff;
+    border-radius: 3px;
+  }
+  .claimButton{
+    border: none;
+    font-size: 30px;
+    padding: 15px;
+    color: white;
+    cursor: pointer;
+    background-color: #f32727;
+    border-radius: 3px;
+    margin-left: 500px
+  }

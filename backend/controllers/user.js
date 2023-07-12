@@ -129,7 +129,6 @@ export const searchPost = (req, res) => {
 
 }
 export const getSample = (req, res) => {
-   console.log("rrr", req.body.sample)
     const q = "UPDATE users SET sample = ? WHERE id = ?;";
     db.query(q,[
         req.body.sample,

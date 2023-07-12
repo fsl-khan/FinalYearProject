@@ -16,6 +16,7 @@ import { DarkModeContext } from './Context/darkModeContext'
 import { AuthContext } from './Context/authContext'
 import Profile from './pages/profile/Profiles'
 import AdminPage from './pages/Admin/Admin/AdminPage'
+import AdminClaims from './pages/Admin/Admin/AdminClaims'
 import AdminLogin from './pages/Admin/AdminLogin/AdminLogin'
 import MemberReg from './pages/register/MemberReg'
 import PoetReg from './pages/register/PoetReg'
@@ -35,7 +36,6 @@ function App () {
   const {darkMode} = useContext(DarkModeContext);
 
   const queryClient = new QueryClient();
-
 
  
   const Layout=()=>{
@@ -113,6 +113,10 @@ function App () {
     {
       path: "/admin",
       element: <AdminPage />
+    }, 
+    {
+      path: "/adminClaims",
+      element: <AdminClaims />
     },
     {
       path: "/adminlogin",

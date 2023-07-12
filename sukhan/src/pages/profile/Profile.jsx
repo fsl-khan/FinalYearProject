@@ -108,11 +108,11 @@ console.log("ss",data1)
           <div className="profileDetails">
                 <div className="userInfo">
                   <div className="left">
+                  {/* <Language />
                   <Language />
                   <Language />
                   <Language />
-                  <Language />
-                  <Language />
+                  <Language /> */}
                   </div>
                   <div className="center">
                         <span>{data && data.nickname }</span>
@@ -135,11 +135,11 @@ console.log("ss",data1)
                         </div>
                   </div>
                   <div className="right">
+                  {/* <Language />
                   <Language />
                   <Language />
                   <Language />
-                  <Language />
-                  <Language />
+                  <Language /> */}
 
                   </div>
                 </div>

@@ -2,7 +2,7 @@ import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlin
 import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import ModeCommentOutlinedIcon from "@mui/icons-material/ModeCommentOutlined";
 import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
-import { Viewer, Worker } from "@react-pdf-viewer/core";
+import InfoRoundedIcon from "@mui/icons-material/InfoRounded";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import moment from "moment";
@@ -14,21 +14,63 @@ import Comments from "../Comments/Comments";
 import "./Post.scss";
 import Rate from "./Rate";
 import BookView from "../Posts/BookView";
+import {
+  Backdrop,
+  Box,
+  Button,
+  Fade,
+  Modal,
+  TextareaAutosize,
+} from "@mui/material";
+import React from "react";
 
-const Post = ({ post,rated }) => {
+const Post = ({ post, rated }) => {
   const { isLoading, error, data } = useQuery(["likes", post.id], () =>
     makeRequest.get("/likes?postid=" + post.id).then((res) => {
       return res.data;
     })
   );
-
-  const [totalRate , setTotalRate] = useState();
+  const [totalRate, setTotalRate] = useState();
 
   const [CommentOpen, setCommentOpen] = useState(false);
 
   const [MenuOpen, setMenuOpen] = useState(false);
 
+  const [claim, setClaim] = useState(false);
+  const [ModalData, setData] = useState("");
   const { currentUser } = useContext(AuthContext);
+
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const handleRequest = async () => {
+    const claimAt = post.username;
+    const username = currentUser.username;
+    console.log(post.id)
+    try {
+      await axios.post("http://localhost:8800/api/posts/claim", {
+        claimBy: username,
+        claimAt: claimAt,
+        Post: post.id,
+        Reference: ModalData,
+      });
+      handleClose();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 400,
+    bgcolor: "background.paper",
+    border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
+  };
 
 
   const [rating, setRating] = useState(0);
@@ -42,53 +84,43 @@ const Post = ({ post,rated }) => {
     },
     {
       onSuccess: () => {
-        // Invalidate and refetch
         queryClient.invalidateQueries(["likes"]);
       },
     }
   );
-  
-  // const pdfPath = "./upload/" + post.pdf;
 
-  const handleRating = async (newRate) =>{
+  const handleRating = async (newRate) => {
     try {
-      // Make an API request to update the rating in the database
-      await axios.post('http://localhost:8800/api/rising/add', {
-        rating: newRate ,
+      await axios.post("http://localhost:8800/api/rising/add", {
+        rating: newRate,
         postid: post.id,
-        userid: currentUser.id
+        userid: currentUser.id,
       });
-      console.log('Rating updated successfully in the database');
+      console.log("Rating updated successfully in the database");
     } catch (error) {
-      console.error('Error updating rating in the database:', error);
-      // Handle the error and provide user feedback
+      console.error("Error updating rating in the database:", error);
     }
-    
 
-    // Update the local state with the new rating
     setRating(newRate);
-    // {window.location.reload(false)}
-
-  }
+  };
   const handleFav = () => {
     mutation.mutate(data && data.includes(currentUser.id));
   };
 
   const deleteMutation = useMutation(
-    (postid)=>{
-      return makeRequest.delete("/posts/"+postid)
+    (postid) => {
+      return makeRequest.delete("/posts/" + postid);
     },
     {
-      onSuccess:()=>{
-        queryClient.invalidateQueries(["posts"])
-      }
+      onSuccess: () => {
+        queryClient.invalidateQueries(["posts"]);
+      },
     }
+  );
 
-  )
-
-  const handleDelete = ()=>{
-      deleteMutation.mutate(post.id)
-  }
+  const handleDelete = () => {
+    deleteMutation.mutate(post.id);
+  };
 
   let postType = "";
   const location = useLocation();
@@ -98,9 +130,9 @@ const Post = ({ post,rated }) => {
     postType = "pdf";
   } else postType = "img";
 
-
   return postType === "img" ? (
-    ((post.img !== null || post.desc !== null) && proUrl[1] === "") || proUrl[1] === "Profile" ? (
+    ((post.img !== null || post.desc !== null) && proUrl[1] === "") ||
+    proUrl[1] === "Profile" ? (
       <div className="Post">
         <div className="container">
           <div className="userBar">
@@ -124,13 +156,50 @@ const Post = ({ post,rated }) => {
                 <span className="date">{moment(post.createdAt).fromNow()}</span>
               </div>
             </div>
-            <MoreHorizOutlinedIcon  onClick={()=>setMenuOpen(!MenuOpen)}/>
-            {MenuOpen &&  ( post.userid===currentUser.id ? <button onClick={handleDelete} >Delete</button> : "")}
+            <div className="more">
+              <MoreHorizOutlinedIcon onClick={() => setMenuOpen(!MenuOpen)} />
+              {MenuOpen &&
+                (post.userid === currentUser.id ? (
+                  <button onClick={handleDelete}>Delete</button>
+                ) : (
+                  ""
+                ))}
+              {currentUser.usertype === "0" ? (
+                ""
+              ) : (
+                <div className="request">
+                  <InfoRoundedIcon
+                    onClick={handleOpen}
+                    style={{ cursor: "pointer" }}
+                  />
+                  <Modal
+                    aria-labelledby="transition-modal-title"
+                    aria-describedby="transition-modal-description"
+                    open={open}
+                    onClose={handleClose}
+                    closeAfterTransition
+                    slots={{ backdrop: Backdrop }}
+                    slotProps={{
+                      backdrop: {
+                        timeout: 500,
+                      },
+                    }}
+                  >
+                    <Fade in={open}>
+                      <Box sx={style}>
+                        <TextareaAutosize
+                          value={ModalData}
+                          onChange={(e) => setData(e.target.value)}
+                        />
+                        <Button onClick={handleRequest}>Submit</Button>
+                      </Box>
+                    </Fade>
+                  </Modal>
+                </div>
+              )}
+            </div>
           </div>
           <div className="contentBar">
-            {/* {post && post.map((text,index)=>{
-              <p key={index}>{text}</p>
-            })} */}
             <pre>{post.desc}</pre>
             {post.img !== null ? (
               proUrl[1] === "Profile" ? (
@@ -139,29 +208,26 @@ const Post = ({ post,rated }) => {
                 <img src={"./upload/" + post.img} />
               )
             ) : (
-              // post.pdf !== null && proUrl[1] === "Profile"?
-              // <a href={"./../upload/" + post.pdf}>{post.pdf}</a> ""
               ""
             )}
-
-            {/* <img src={"./upload/" + post.img} /> */}
           </div>
           <div className="reactionBar">
             <div className="item">
               <div className="ranking">
                 <div className="stars">
-                  {/* <Rate  rating={rating} onRating={rate=>setRating(rate)} /> */}
-                  <Rate count={5} rating={rating} color={{ filled: '#f5eb3b', unfilled: '#DCDCDC' }} onRating={handleRating} />
+                  <Rate
+                    count={5}
+                    rating={rating}
+                    color={{ filled: "#f5eb3b", unfilled: "#DCDCDC" }}
+                    onRating={handleRating}
+                  />
                 </div>
-                {/* {data1 && data1.map((item) => (
-                    item.userid === post.userid ? ( */}
-                      <span className="Votes">{parseInt(rated) !== parseInt(rating) ? parseInt(rated)+rating: parseInt(rated)}</span>
-                    {/* ) : null
-                  ))} */}
-
-               
+                <span className="Votes">
+                  {parseInt(rated) !== parseInt(rating)
+                    ? parseInt(rated) + rating
+                    : parseInt(rated)}
+                </span>
               </div>
-
               <div
                 className="comment"
                 onClick={() => setCommentOpen(!CommentOpen)}
@@ -169,13 +235,12 @@ const Post = ({ post,rated }) => {
                 <ModeCommentOutlinedIcon className="commentIcon" />
                 <span className="Votes"> Comments </span>
               </div>
-
               {isLoading ? (
                 "loading"
               ) : data && data.includes(currentUser.id) ? (
                 <>
                   <>
-                    <span>محفوظ ہو گیا</span>{" "}
+                    <span>Favorite</span>{" "}
                   </>
                   <FavoriteOutlinedIcon
                     style={{ color: "blue", cursor: "pointer" }}
@@ -185,7 +250,7 @@ const Post = ({ post,rated }) => {
               ) : (
                 <>
                   <>
-                    <span>محفوظ کریں</span>{" "}
+                    <span> Favorite</span>{" "}
                   </>
                   <FavoriteBorderOutlinedIcon
                     style={{ cursor: "pointer" }}
@@ -230,21 +295,24 @@ const Post = ({ post,rated }) => {
           <p>{[post.desc]}</p>
           {post.pdf !== null ? (
             <span>
-              {/* <a href={"./../upload/" + post.pdf}>{post.pdf}</a> */}
-             <BookView pdfUrl={"./../upload/" + post.pdf} />
-           
+              <BookView pdfUrl={"./../upload/" + post.pdf} />
             </span>
           ) : (
             ""
           )}
         </div>
-        <div className="reactionBar"> 
+        <div className="reactionBar">
           <div className="item">
             <div className="ranking">
               <div className="stars">
-              <Rate count={5} rating={rating} color={{ filled: '#f5eb3b', unfilled: '#DCDCDC' }} onRating={rate=>setRating(rate)} />
+                <Rate
+                  count={5}
+                  rating={rating}
+                  color={{ filled: "#f5eb3b", unfilled: "#DCDCDC" }}
+                  onRating={(rate) => setRating(rate)}
+                />
               </div>
-              <span className="Votes"> {rating}  </span>
+              <span className="Votes"> {rating} </span>
             </div>
 
             <div
@@ -260,7 +328,7 @@ const Post = ({ post,rated }) => {
             ) : data && data.includes(currentUser.id) ? (
               <>
                 <>
-                  <span>محفوظ ہو گیا</span>{" "}
+                  <span>Favorite</span>{" "}
                 </>
                 <FavoriteOutlinedIcon
                   style={{ color: "blue", cursor: "pointer" }}
@@ -270,7 +338,7 @@ const Post = ({ post,rated }) => {
             ) : (
               <>
                 <>
-                  <span>محفوظ کریں</span>{" "}
+                  <span>Favorite</span>{" "}
                 </>
                 <FavoriteBorderOutlinedIcon
                   style={{ cursor: "pointer" }}

@@ -49,7 +49,9 @@ const Poets = () => {
             <span className="userNameClass">{item.username}</span>
           </Link>
           </div>
-          
+          <div className="ranking">
+              {/* <Rate count={5} rating={6-index} color={{ filled: '#f5eb3b', unfilled: '#DCDCDC' }} onRating={null} /> */}
+              </div>
         </div>
         )))}
     </div>

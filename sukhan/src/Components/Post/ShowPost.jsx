@@ -81,9 +81,9 @@ const ShowPost = ({ post, rated }) => {
         <div className="userBar">
           <div className="userInfo">
             {proUrl[1] === "Profile" ? (
-              <img src={"./../upload/" + post.profilepic} />
-            ) : (
               <img src={"./upload/" + post.profilepic} />
+              ) : (
+              <img src={"./../upload/" + post.profilepic} />
             )}
             <div className="Uploader">
               <Link
@@ -102,12 +102,12 @@ const ShowPost = ({ post, rated }) => {
           <MoreHorizOutlinedIcon />
         </div>
         <div className="contentBar">
-          <p>{[post.desc]}</p>
-          {post.img !== null ? (
-            proUrl[1] === "Profile" ? (
-              <img src={"./../upload/" + post.img} />
-            ) : (
+          <pre> {[post.desc]} </pre>
+                    {post.img !== null ? (
+                      proUrl[1] === "Profile" ? (
               <img src={"./upload/" + post.img} />
+              ) : (
+                <img src={"./../upload/" + post.img} />
             )
           ) : (
             // post.pdf !== null && proUrl[1] === "Profile"?

@@ -1,29 +1,25 @@
 import React, { useEffect, useState } from "react";
 import "./AdminPage.scss";
-// import { QueryClientProvider, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { makeRequest } from "../../../axios";
-import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const AdminPage = () => {
 
-  // const { isLoading, error, data } = useQuery(['ddd'], () =>
-  //   makeRequest.get('/user/all').then((res) => {
-  //     return res.data;
-  //   })
-  // );
+  const [claimedData, setClaimedData] = useState();
+
   const [data, setData] = useState();
   const getUser = async () => {
     const response = await axios.get("http://localhost:8800/api/users/all");
+    const res = await axios.get("http://localhost:8800/api/posts/claimPost");
     const data = response.data;
+    const datas = res.data;
     setData(data);
+    setClaimedData(datas);
   };
   
   useEffect(() => {
     getUser();
   }, []);
-
-
 
   const handleUserStatusChange = async (userid) => {
     console.log(userid, "raaa")
@@ -37,11 +33,15 @@ const AdminPage = () => {
     }
    
   };
-console.log(data)
+const [err, setError] = useState('');
   return (
-  
+    <>
+    <div className="main">
     <div className="admin-page">
       <h1>Admin Page</h1>
+      <Link to="/adminClaims" >
+      <button className="claimButton" >Claims</button>
+      </Link>
       <h2>Users</h2>
       <table>
         <thead>
@@ -73,11 +73,12 @@ console.log(data)
                 </button>
               </td>
             </tr>
-            // </QueryClientProvider>
           ))}
         </tbody>
       </table>
     </div>
+    </div>
+    </>
   );
 };
 

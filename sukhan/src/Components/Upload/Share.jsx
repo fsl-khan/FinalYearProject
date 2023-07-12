@@ -16,7 +16,7 @@ const Share = () => {
       formData.append("desc", JSON.stringify(desc));
       // Append the PDF file
       const res = await makeRequest.post("/upload", formData);
-      setDesc(null);
+      setDesc("");
       setFile(null);
       setPdfFile(null);
       return res.data;
@@ -49,7 +49,7 @@ const Share = () => {
     let imgUrl = "";
     if (file) imgUrl = await upload();
     mutation.mutate({ desc, img: imgUrl });
-    setDesc(null);
+    setDesc("");
     setFile(null);
     }
     else
@@ -57,7 +57,7 @@ const Share = () => {
     let pdfUrl = "";
     if (pdfFile) pdfUrl = await upload();
     mutation.mutate({ desc, pdf: pdfUrl });
-    setDesc(null);
+    setDesc("");
     setPdfFile(null);
     }
   };
@@ -122,5 +122,4 @@ const Share = () => {
     </div>
   );
 };
-
 export default Share;

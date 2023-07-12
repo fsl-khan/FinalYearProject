@@ -35,10 +35,15 @@ const Result = () => {
     }
   }
 
-console.log(data2)
 
 const style = {
-    display :"flex",
+  background: 'transparent', 
+  boxShadow: '0px 0px 16px -8px rgba(0, 0, 0, 0.68)', 
+  margin: '25px 25px',
+  padding: '25px 25px',
+  display: 'flex',
+  alignItems: 'center',
+  gap: '15px'
   }
 const pro = {
     height :"40px",
@@ -46,7 +51,13 @@ const pro = {
     borderRadius: "50%"
 }
 return (
-    <div  style={{ background: 'transparent', boxShadow: 'none' }}>
+  <div style={{ background: 'transparent', 
+  boxShadow: '0px 0px 16px -8px rgba(0, 0, 0, 0.68)', 
+  margin: '25px 25px',
+  padding: '25px 25px',
+  height: 'calc(100vh - 70px)'
+  }}>
+
      Search For {searchData[2]}
       {data &&
         data.map((item) => {
@@ -80,11 +91,19 @@ return (
                     cursor: "pointer",
                   }}
                 >
-                  <span className="userName">{item.username}</span>
+                  <span>{item.username}</span>
                 </Link>
                 <br/>
             </div>
-            <span className="userName">{item.desc}</span>
+            <span  style={{
+                    background: 'transparent', 
+                    boxShadow: '0px 0px 16px -8px rgba(0, 0, 0, 0.68)', 
+                    margin: '25px 25px',
+                    padding: '25px 25px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '15px'
+                  }}>{item.desc}</span>
             </>
           );
         })}

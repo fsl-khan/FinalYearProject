@@ -35,7 +35,7 @@ const RightBar = () => {
     <div className="rightbar">
       <div className="container">
       <div className="item">
-          <span>Ranking / درجہ بندی </span>
+          <span>Ranking </span>
           {isLoading ?  (
             'Loading...'
           ) : ( data && data.map((item , index) => (
@@ -62,7 +62,7 @@ const RightBar = () => {
             )))}
         </div>
         <div className="item">
-              <span>Raising Stars / ابھرتے ستارے </span>
+              <span> Poets Community </span>
               {isLoading ?  (
             'Loading...'
           ) : ( data2 && data2.map((item , index) => (
